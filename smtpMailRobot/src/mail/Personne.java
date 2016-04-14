@@ -6,6 +6,9 @@
 
 package mail;
 
+import java.util.ArrayList;
+import utils.Parseur;
+
 /**
  * 
  * @author Pascal SEKLEY
@@ -21,6 +24,16 @@ public class Personne {
    public Personne(String nom, String prenom, String address){
       this.nom = nom;
       this.prenom = prenom;
+      this.address = address;
+   }
+
+   public Personne(String address) {
+      //ArrayList<String> tabPrenomNom = new ArrayList<>();
+      String[] tabPrenomNom;
+      String delimiter = ".@";
+      tabPrenomNom = Parseur.parser(address, delimiter, false);
+      nom = tabPrenomNom[0];
+      prenom = tabPrenomNom[1];
       this.address = address;
    }
    

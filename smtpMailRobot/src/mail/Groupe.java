@@ -15,10 +15,20 @@ import java.util.List;
  */
 public class Groupe {
    
-   private List<Personne> membreGroupe = new ArrayList<>();
+   private List<Personne> membreGroupe;
+   
+   public Groupe(){
+      membreGroupe = new ArrayList<>();
+   }
    
    public void ajouterMembre(Personne personne){
       membreGroupe.add(personne);
+   }
+   
+   public void ajouterMembre(List<Personne> membres){
+      membres.stream().forEach((personne) -> {
+         membreGroupe.add(personne);
+      });
    }
    
    public List<Personne> getMembres(){
