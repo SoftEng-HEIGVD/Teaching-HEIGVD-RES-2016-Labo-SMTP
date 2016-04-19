@@ -1,7 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ -----------------------------------------------------------------------------------
+ Laboratoire : SMTP
+ Fichier     : Parseur.java
+ Auteur(s)   : Pascal SEKLEY & Ibrahim Ounon
+ Date        : Debut: 06.04.16 et Fin: 20.04.16
+ But         : Utils class that contains some
+ Remarque(s) :
+
+ Compilateur : jdk 1.8.0_60
+ -----------------------------------------------------------------------------------
  */
 
 package utils;
@@ -11,64 +18,76 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * 
- * @author Pascal SEKLEY
- */
+
 public class Parseur {
-   private final ArrayList<String> adressList = new ArrayList<>();
+   // List on each line that contain the file given in argument
+   private final ArrayList<String> list = new ArrayList<>();
 
    public void parse(String fileName) throws IOException {
-      BufferedReader in = new BufferedReader(new FileReader(fileName));
-      String line;
-      
-      // Test if the list is empty
-      if(!adressList.isEmpty())
-         adressList.clear();
-      
-      while ((line = in.readLine()) != null) {
-         adressList.add(line);
-
+      try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+         String line;
+         
+         // Test if the list is empty
+         if(!list.isEmpty())
+            list.clear();
+         
+         while ((line = in.readLine()) != null) {
+            list.add(line);
+            
+         }
       }
-      in.close();
    }
    
+   // This methode retruns an array containong elements of the parsed file
    public ArrayList<String> getAdressList(){
-	return adressList;
+	return list;
    }
+   
+   /*
+      Description: This fonction helps to split a string and store all the splited
+                   elements of the string into an array of string. It takes the string
+                   to parse in first argument, the delemiter as second and a boolean
+                   showing that if we want to use consecutive delimiter as one or not
+   */
    
    public static String[] parser (String string, String delimiter, boolean isMessages){
-      //ArrayList<String> tabPrenomNom = new ArrayList<>();
+      // The delemiter use to parse the string
       String delims;
+      
+      // We use consecutive delimiter to be considered as one
       if(isMessages){
          delims = "["+delimiter+"]+";
       }
+      // We use only one delimiter
       else{
          delims = "["+delimiter+"]";
       }
+      // We the split the string and store all the components in an array of string
       String[] tokens = string.split(delims);
       
-//      tabPrenomNom.add(0, tokens[0]);
-//      tabPrenomNom.add(1, tokens[1]);
-  
       return tokens;
    }
    
-   
+   /*
+      Description: This fonction helps to read a file and store the content in a
+                   string. It takes to file name as argument.
+      Exception  : If it coud not open the file, an IO exception is thrown. 
+   */
    public static String readFile(String fileName) throws IOException {
-      BufferedReader br = new BufferedReader(new FileReader(fileName));
+      BufferedReader buffreader = new BufferedReader(new FileReader(fileName));
       try {
-         StringBuilder sb = new StringBuilder();
-         String line = br.readLine();
-
+         StringBuilder stringbuilder = new StringBuilder();
+         String line = buffreader.readLine();
+         
+         // Whenever it encounter a line it reads it till the end of file.
          while (line != null) {
-            sb.append(line);
-            sb.append("\n");
-            line = br.readLine();
+            stringbuilder.append(line);
+            stringbuilder.append("\n");
+            line = buffreader.readLine();
          }
-         return sb.toString();
+         return stringbuilder.toString();
       } finally {
-         br.close();
+         buffreader.close();
       }
    }
 

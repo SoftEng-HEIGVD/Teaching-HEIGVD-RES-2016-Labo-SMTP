@@ -1,43 +1,59 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ -----------------------------------------------------------------------------------
+ Laboratoire : SMTP
+ Fichier     : Prank.java
+ Auteur(s)   : Pascal SEKLEY & Ibrahim Ounon
+ Date        : Debut: 06.04.16 et Fin: 20.04.16
+ But         : Class Prank that defines the specificity of a prank. The sender, the 
+               group of recipients and the message to be sent to a group.
+ Remarque(s) :
+
+ Compilateur : jdk 1.8.0_60
+ -----------------------------------------------------------------------------------
  */
 
 package prank;
 
-//import java.util.ArrayList;
-import java.util.List;
-import mail.Groupe;
-import mail.Personne;
+import mail.Group;
+import mail.Person;
 
-/**
- * 
- * @author Pascal SEKLEY
- */
+
 public class Prank {
-   private Personne envoyeur;
-   //private List<Personne> destinataires = new ArrayList<>();
-   private Groupe groupeDestinataires;
+   
+   private Person sender;
+   private Group groupeDestinataires;
    private String message;
    
    
-   public Personne getEnvoyeur(){
-      return envoyeur;
+   // Get the sender of the message
+   public Person getSender(){
+      return sender;
    }
    
+   // Get the message of the prank
    public String getMessage(){
       return message;
    }
    
+   // Get the recipient group
+   public Group getRecipientGroups(){
+      return groupeDestinataires;
+   }
+   
+   // Set the message of the prank
    public void setMessage(String message){
       this.message = message;
    }
    
-   public void ajoutervictimes(List<Personne>destinataires){
-      groupeDestinataires.ajouterMembre(destinataires);
-      //this.destinataires = destinataires;
+   // Set a group of recipients
+   public void setgroup(Group groupe){
+      this.groupeDestinataires = groupe;
    }
    
+   // Set the sender of the mail
+   public void setSender(Person personne){
+      this.sender = personne;
+   }
+
    
 }
