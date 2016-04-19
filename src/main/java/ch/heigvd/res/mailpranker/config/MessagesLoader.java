@@ -10,10 +10,28 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Static class loading some messages
+ *
+ * @author Damien Rochat (damien.rochat@heig-vd.ch)
+ * @author Sébastien Richoz (sebastien.richoz1@heig-vd.ch)
+ */
 public class MessagesLoader {
 
+    /**
+     * Private constructor, no instance of this class
+     */
     private MessagesLoader() {}
 
+    /**
+     * Load a file and generate a list of messages
+     *
+     * Parse the messages : all messages are surrounded by "=="
+     * and they begin by a line "Subject : ..."
+     *
+     * @param file the path of the file to load
+     * @return the list of messages loaded
+     */
     public static List<Message> load(String file) {
         try {
 

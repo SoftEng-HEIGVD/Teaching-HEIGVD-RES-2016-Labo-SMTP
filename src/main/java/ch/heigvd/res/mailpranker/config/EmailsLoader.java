@@ -10,10 +10,25 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Static class loading some emails
+ *
+ * @author Damien Rochat (damien.rochat@heig-vd.ch)
+ * @author Sébastien Richoz (sebastien.richoz1@heig-vd.ch)
+ */
 public class EmailsLoader {
 
+    /**
+     * Private constructor, no instance of this class
+     */
     private EmailsLoader() {}
 
+    /**
+     * Load a file and generate a list of emails
+     *
+     * @param file the path of the file to load
+     * @return the list of emails loaded
+     */
     public static List<Email> load(String file) {
         try {
 
