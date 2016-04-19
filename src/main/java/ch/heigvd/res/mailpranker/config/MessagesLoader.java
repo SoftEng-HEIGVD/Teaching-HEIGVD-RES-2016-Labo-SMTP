@@ -39,12 +39,13 @@ public class MessagesLoader {
                 // Read the content until the end of message character
                 line = input.readLine();
                 while (line != null && !line.equals("==")) {
-                    content += line;
+                    content += line + "\r\n";
                     line = input.readLine();
                 }
 
                 // Generate a message object
-                messages.add(new Message(subject, content));
+                // Remove enventually ending or begining whitespaces
+                messages.add(new Message(subject.trim(), content.trim()));
             }
 
             // Return the list of emails

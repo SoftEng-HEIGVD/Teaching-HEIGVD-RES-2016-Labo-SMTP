@@ -1,5 +1,7 @@
 package ch.heigvd.res.mailpranker.model;
 
+import ch.heigvd.res.mailpranker.smtp.ISmtpClient;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 public class PrankGenerator {
 
     private List<Prank> pranks = new ArrayList<Prank>();
+    private ISmtpClient smtpClient;
 
     public PrankGenerator(List<Email> emails, List<Message> messages, int groupSize) {
         Collections.shuffle(emails);
@@ -29,6 +32,15 @@ public class PrankGenerator {
             // Loop if there is no more message
             pranks.add(new Prank(group, messages.get(messageIndex++ % messages.size())));
         }
+    }
 
+    public void setSmtpClient(ISmtpClient smtpClient) {
+        this.smtpClient = smtpClient;
+    }
+
+    public void sendAll() {
+        for (Prank prank : pranks) {
+            smtpClient.send(prank);
+        }
     }
 }

@@ -10,4 +10,8 @@ public class Group {
     public void addEmail(Email email) {
         emails.add(email);
     }
+
+    public List<Email> getEmails() {
+        return emails;
+    }
 }
