@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Class representing a prank
  *
- * Implement the ISmtpMessage interface to be directly used
+ * Implements the ISmtpMessage interface to be directly used
  * by the SMTP client.
  *
  * @author Damien Rochat (damien.rochat@heig-vd.ch)
@@ -19,12 +19,11 @@ public class Prank implements ISmtpMessage {
     /**
      * The attributes
      */
-    private String from;
-    private List<String> to = new LinkedList<String>();
-    private List<String> cc = new LinkedList<String>();
-    private List<String> bcc = new LinkedList<String>();
-    private String subject;
-    private String body;
+    private Email from;
+    private List<Email> to = new LinkedList<Email>();
+    private List<Email> cc = new LinkedList<Email>();
+    private List<Email> bcc = new LinkedList<Email>();
+    private Message message;
 
     /**
      * Set the from field
@@ -32,7 +31,7 @@ public class Prank implements ISmtpMessage {
      * @param email the email to use
      */
     public void setFrom(Email email) {
-        from = email.getEmail();
+        from = email;
     }
 
     /**
@@ -41,7 +40,7 @@ public class Prank implements ISmtpMessage {
      * @return the email
      */
     public String getFrom() {
-        return from;
+        return from.getEmail();
     }
 
     /**
@@ -50,7 +49,7 @@ public class Prank implements ISmtpMessage {
      * @param email the email to add
      */
     public void addTo(Email email) {
-        to.add(email.getEmail());
+        to.add(email);
     }
 
     /**
@@ -59,7 +58,11 @@ public class Prank implements ISmtpMessage {
      * @return the emails
      */
     public List<String> getTo() {
-        return to;
+        List<String> list = new LinkedList<String>();
+        for (Email email : to) {
+            list.add(email.getEmail());
+        }
+        return list;
     }
 
     /**
@@ -68,7 +71,7 @@ public class Prank implements ISmtpMessage {
      * @param email the email to add
      */
     public void addCC(Email email) {
-        cc.add(email.getEmail());
+        cc.add(email);
     }
 
     /**
@@ -77,7 +80,11 @@ public class Prank implements ISmtpMessage {
      * @return the emails
      */
     public List<String> getCC() {
-        return cc;
+        List<String> list = new LinkedList<String>();
+        for (Email email : cc) {
+            list.add(email.getEmail());
+        }
+        return list;
     }
 
     /**
@@ -86,7 +93,7 @@ public class Prank implements ISmtpMessage {
      * @param email the email to add
      */
     public void addBCC(Email email) {
-        bcc.add(email.getEmail());
+        bcc.add(email);
     }
 
     /**
@@ -95,18 +102,20 @@ public class Prank implements ISmtpMessage {
      * @return the emails
      */
     public List<String> getBCC() {
-        return bcc;
+        List<String> list = new LinkedList<String>();
+        for (Email email : bcc) {
+            list.add(email.getEmail());
+        }
+        return list;
     }
 
     /**
-     * Set the subject and the body for this prank
-     * from a message object
+     * Set the message for this prank
      *
      * @param message the message to use
      */
     public void setMessage(Message message) {
-        subject = message.getSubject();
-        body = message.getBody();
+        this.message = message;
     }
 
     /**
@@ -115,7 +124,7 @@ public class Prank implements ISmtpMessage {
      * @return the subject
      */
     public String getSubject() {
-        return subject;
+        return message.getSubject();
     }
 
     /**
@@ -124,6 +133,6 @@ public class Prank implements ISmtpMessage {
      * @return the body
      */
     public String getBody() {
-        return body;
+        return message.getBody();
     }
 }

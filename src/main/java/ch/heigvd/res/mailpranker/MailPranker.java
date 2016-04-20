@@ -40,7 +40,7 @@ public class MailPranker {
                 MessagesLoader.load(messagesFile),
                 Integer.parseInt(config.get("numberOfGroups"))
         );
-        prankGenerator.setBCC(new Email(config.get("sendCopyTo")));
+        prankGenerator.setBCC(new Email(config.get("sendBCCTo")));
 
         // Create and configure the SMTP client
         SmtpClient smtpClient = new SmtpClient(
