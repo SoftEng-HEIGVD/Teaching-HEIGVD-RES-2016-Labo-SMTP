@@ -51,7 +51,7 @@ If you use a virtualised environment, don't forget to map the ports of your VM t
 
 ## Implementation
 
-![Class diagram](./doc/class_diagram.png)
+![Class diagram](./figures/class_diagram.png)
 
 There is three packages, for the config classes, the smtp classes, and the PrankMailer specifics classes.
 
