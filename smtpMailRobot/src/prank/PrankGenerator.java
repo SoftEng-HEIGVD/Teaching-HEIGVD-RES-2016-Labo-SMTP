@@ -13,7 +13,7 @@
 
 package prank;
 
-import amorce.SmtpMailRobot;
+import initiation.SmtpMailRobot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;

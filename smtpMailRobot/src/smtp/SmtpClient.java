@@ -13,7 +13,6 @@
 
 package smtp;
 
-import amorce.SmtpMailRobot;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -82,21 +81,26 @@ public class SmtpClient implements ISmtpClient {
       out.flush();
       System.out.println("Server: " + in.readLine());
       
+      // We set all the recipients of each messages
       for(int i=0; i<nbrPersonne; i++){
          out.print("RCPT TO: " + groupeDestinataire.getRecipients().get(i).getAddress()+"\r\n");
          out.flush();
          System.out.println("Server: " + in.readLine());
       }
+      // Setting the data to send
       out.print("DATA\r\n");
       out.flush();
       System.out.println("Server: " + in.readLine());
       
+      // Set the header of the messages
       out.print(header+"\r\n");
       out.flush();
       
+      // Set the message to send
       out.print(messageToSend+"\r\n");
       out.flush();
       
+      // End of the message
       out.print(".\r\n");
       out.flush();
       System.out.println("Server: " + in.readLine());
@@ -104,65 +108,6 @@ public class SmtpClient implements ISmtpClient {
       
       System.out.println("Mail sent ...");
       
-      
-      //---------------------------------------------------------------------
-  /*   
-      String header = "From: pascal.sekley@heig-vd.ch\r\nTo: passysek@gmail.com\r\nSubject: Test\r\n";
-      String data = "<Just un petit test. Bye>.\r\n";
-      
-      out.print("EHLO Pascal\r\n");
-      out.flush();
-      
-      String welcome = in.readLine();
-      while (welcome != null) {
-         if(welcome.startsWith("250 ")){
-            System.out.println("messageFromServer: " + welcome);
-            break;
-         }
-            System.out.println("messageFromServer: " + welcome);
-            welcome = in.readLine();
-      }
-      
-      out.print("MAIL FROM: pascal.sekley@heig-vd.ch\r\n");
-      out.flush();
-      welcome = in.readLine();
-      System.out.println("Server: " + welcome);
-      
-      out.print("RCPT TO: ibrahim.ounon@heig-vd.ch\r\n");
-      out.flush();
-      System.out.println("Server: " + in.readLine());
-      
-      out.print("DATA\r\n");
-      out.flush();
-      System.out.println("Server-from: " + in.readLine());
-      
-//      out.print("From: pascal.sekley@heig-vd.ch\r\n");
-//      out.flush();
-//      
-//      out.print("To: ibrahim.ounon@heig-vd.ch\r\n");
-//      out.flush();
-//      
-//      
-//      out.print("Subject: Test\r\n");
-//      out.flush();
-//      out.print("\r\n");
-//      out.flush();
-      
-      out.print(header);
-      out.flush();
-      out.print(data);
-      out.flush();
-      
-      out.print(".\r\n");
-      out.flush();
-      System.out.println("Server-Ok: " + in.readLine());
-      
-      out.print("quit\r\n");
-      out.flush();
-      System.out.println("Server: " + in.readLine());
-       
-      System.out.println("Mail sent ...");*/
-   
    }
 
 }

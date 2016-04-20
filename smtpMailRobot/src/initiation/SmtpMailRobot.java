@@ -10,7 +10,7 @@
  Compilateur : jdk 1.8.0_60
  -----------------------------------------------------------------------------------
  */
-package amorce;
+package initiation;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -106,7 +106,7 @@ public class SmtpMailRobot {
     Description: This fonction creats and opens a socket in relation to the 
                  smtp server.
     */
-   public void connect() {
+   public void openConnexion() {
       try {
          InputStream input = null;
 
@@ -135,7 +135,7 @@ public class SmtpMailRobot {
       }
    }
    
-   public void close() throws IOException{
+   public void closeConnexion() throws IOException{
       out.print("quit\r\n");
       out.flush();
       System.out.println("Server: " + in.readLine());
@@ -205,15 +205,14 @@ public class SmtpMailRobot {
       // Send pranks to each group
       SmtpClient client = new SmtpClient();
       for (int i = 0; i < numberOfPranks; i++) {
-         smtpRobot.connect();
+         smtpRobot.openConnexion();
          try {
-            //smtpRobot.connect();
             client.sendMessage(myPranks.get(i), SmtpMailRobot.getOutStream(), SmtpMailRobot.getInStream());
          } catch (IOException ex) {
             Logger.getLogger(SmtpMailRobot.class.getName()).log(Level.SEVERE, null, ex);
          }
       }
-      smtpRobot.close();
+      smtpRobot.closeConnexion();
 
    }
 
