@@ -12,10 +12,12 @@
  */
 package amorce;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -37,15 +39,17 @@ public class SmtpMailRobot {
    private static int numberOfPersonsPerGroup;
    private static String myHostName;
    private int thresholdPerGroup;
-   private final String msgDelim;
+   private String msgDelim;
    private String strMessages;
    private static String[] tabMessages;
    private static PrintWriter out = null;
+   private static BufferedReader in = null;
+   private static boolean errorStatus = false;
+   
 
    private static ArrayList<String> adressList;
 
    public SmtpMailRobot() {
-      this.msgDelim = "==";
       SmtpMailRobot.adressList = new ArrayList<>();
    }
 
@@ -65,24 +69,23 @@ public class SmtpMailRobot {
          numberOfGroups = Integer.parseInt(prop.getProperty("numberOfGroups"));
          numberOfPersonsPerGroup = Integer.parseInt(prop.getProperty("sizeForGroup"));
          thresholdPerGroup = Integer.parseInt(prop.getProperty("thresholdPerGroup"));
+         msgDelim = prop.getProperty("msgDelim");
          myHostName = prop.getProperty("myHostName");
 
          // Get address from the file
          Parseur p = new Parseur();
-         try {
-            p.parse("victimsAdress.txt");
-            strMessages = Parseur.readFile("victimsMessages.txt");
-            tabMessages = Parseur.parser(strMessages, msgDelim, true);
-            //System.out.println("tailleTabMessage: " + tabMessages.length);
-         } catch (IOException e) {
-            System.out.println("Failed to open the file to parse ...");
-         }
+         p.parse("victimsAdress.txt");
+         strMessages = Parseur.readFile("victimsMessages.txt");
+         tabMessages = Parseur.parser(strMessages, msgDelim, true);
+            
          // To check
          adressList = p.getAdressList();
 
          // Verify if the configuration properties help to do the prank or not.
          if ((numberOfPersonsPerGroup < thresholdPerGroup) || (numberOfGroups * numberOfPersonsPerGroup) > adressList.size()) {
-            System.out.println(" EEREUR: Verifiz les parametre de config SVP ");
+            errorStatus = true;
+            System.out.println(" EEREUR: Verifiez les parametre de config SVP ");
+            
          }
 
       } catch (IOException ex) {
@@ -100,7 +103,7 @@ public class SmtpMailRobot {
    }
 
    /*
-    Description: This fonction creat and opens a socket in relation to the 
+    Description: This fonction creats and opens a socket in relation to the 
                  smtp server.
     */
    public void connect() {
@@ -117,6 +120,11 @@ public class SmtpMailRobot {
          outt = smtpSocket.getOutputStream();
 
          out = new PrintWriter(new OutputStreamWriter(outt), true);
+         in = new BufferedReader(new InputStreamReader(smtpSocket.getInputStream()));
+         
+         String welcome = in.readLine();
+            System.out.println(welcome);
+         
          if (inn == null || outt == null) {
             System.out.println("Failed to open streams to socket ...");
          } else {
@@ -127,9 +135,19 @@ public class SmtpMailRobot {
       }
    }
    
+   public void close() throws IOException{
+      out.print("quit\r\n");
+      out.flush();
+      System.out.println("Server: " + in.readLine());
+   }
+   
    // Get the stream that helps to write to the server
-   public static PrintWriter getStream() {
+   public static PrintWriter getOutStream() {
       return out;
+   }
+   
+   public static BufferedReader getInStream(){
+      return in;
    }
 
    // Get the server smtp address
@@ -162,14 +180,23 @@ public class SmtpMailRobot {
    public static String[] getTabMessages() {
       return tabMessages;
    }
+   
+   // Get error status
+   public static boolean getErrorStatus(){
+      return errorStatus;
+   }
 
-   public static void main(String[] args) {
+   public static void main(String[] args) throws IOException {
       SmtpMailRobot smtpRobot = new SmtpMailRobot();
       ArrayList<Prank> myPranks = new ArrayList<>();
       int numberOfPranks;
 
       // Start the programme
       smtpRobot.start();
+      
+      // If there's an error in the configuration file we stop the programme
+      if(SmtpMailRobot.getErrorStatus())
+         return;
 
       PrankGenerator prankGen = new PrankGenerator();
       myPranks = prankGen.generatePrank();
@@ -178,13 +205,15 @@ public class SmtpMailRobot {
       // Send pranks to each group
       SmtpClient client = new SmtpClient();
       for (int i = 0; i < numberOfPranks; i++) {
+         smtpRobot.connect();
          try {
-            smtpRobot.connect();
-            client.sendMessage(myPranks.get(i), SmtpMailRobot.getStream());
+            //smtpRobot.connect();
+            client.sendMessage(myPranks.get(i), SmtpMailRobot.getOutStream(), SmtpMailRobot.getInStream());
          } catch (IOException ex) {
             Logger.getLogger(SmtpMailRobot.class.getName()).log(Level.SEVERE, null, ex);
          }
       }
+      smtpRobot.close();
 
    }
 

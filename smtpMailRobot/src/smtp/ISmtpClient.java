@@ -12,6 +12,7 @@
  */
 package smtp;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import prank.Prank;
@@ -29,6 +30,6 @@ public interface ISmtpClient {
   Exception(s) : I/O exception
   ----------------------------------------------------------------------------------
 */
-   public void sendMessage (Prank prank, PrintWriter out) throws IOException;
+   public void sendMessage (Prank prank, PrintWriter out, BufferedReader in) throws IOException;
    
 }
