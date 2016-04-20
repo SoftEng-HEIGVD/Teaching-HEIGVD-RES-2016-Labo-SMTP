@@ -55,8 +55,6 @@ If you use a virtualised environment, don't forget to map the ports of your VM t
 
 There is three packages, for the config classes, the smtp classes, and the PrankMailer specifics classes.
 
-The configuration load the three.
-
 ### Implementation details ####
 
 The three packages shows the main structure of the project. Each package can be shown as a responsibility of the application.
