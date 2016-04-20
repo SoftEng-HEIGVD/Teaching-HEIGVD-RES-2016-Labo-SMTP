@@ -33,9 +33,9 @@ public class PrankGenerator {
     /**
      * Constructor of the object
      *
-     * This method suffles the two lists before generating the pranks.
+     * This method shuffles the two lists before generating the pranks.
      * There will probably not have the same number of victims in each pranks,
-     * and but this method manages to send a joke to everybody.
+     * but this method ensure to send a joke to everybody.
      *
      * @param emails to use
      * @param messages to use
@@ -45,9 +45,9 @@ public class PrankGenerator {
         Collections.shuffle(emails);
         Collections.shuffle(messages);
 
-        // Check the number of victimes
+        // Check the number of victims
         if (3 * numberOfGroups > emails.size()) {
-            throw new RuntimeException("Not enought emails.");
+            throw new RuntimeException("Not enough emails.");
         }
 
         // Define the number of emails per prank (didn't consider the sender)
@@ -80,7 +80,7 @@ public class PrankGenerator {
             }
 
             // Add message
-            // Loop if there is no more message
+            // Loop through the messages' list if there is no more message
             prank.setMessage(messages.get(messageIndex++ % messages.size()));
 
             // Save prank
@@ -89,7 +89,7 @@ public class PrankGenerator {
     }
 
     /**
-     * Set the SMTP client to use to send the pranks
+     * Set the SMTP client used to send the pranks
      *
      * @param smtpClient the client
      */

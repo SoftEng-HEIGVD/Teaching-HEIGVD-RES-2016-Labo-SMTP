@@ -62,7 +62,7 @@ public class MessagesLoader {
                 }
 
                 // Generate a message object
-                // Remove enventually ending or begining whitespaces
+                // Remove eventually ending or beginning whitespaces
                 messages.add(new Message(subject.trim(), content.trim()));
             }
 

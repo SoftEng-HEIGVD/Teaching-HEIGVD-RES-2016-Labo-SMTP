@@ -17,7 +17,7 @@ import java.util.LinkedList;
 public class Prank implements ISmtpMessage {
 
     /**
-     * The attributs
+     * The attributes
      */
     private String from;
     private List<String> to = new LinkedList<String>();
@@ -63,7 +63,7 @@ public class Prank implements ISmtpMessage {
     }
 
     /**
-     * Add a new email to the carbon copy recipients list
+     * Add a new email to the carbon copy recipients' list
      *
      * @param email the email to add
      */

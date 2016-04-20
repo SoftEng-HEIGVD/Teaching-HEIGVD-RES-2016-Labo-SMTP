@@ -9,7 +9,7 @@ package ch.heigvd.res.mailpranker.model;
 public class Email {
 
     /**
-     * The attributs
+     * The attributes
      */
     private String email;
 
